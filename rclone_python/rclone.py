@@ -625,7 +625,7 @@ def _rclone_transfer_operation(
     command += f' "{out_path}"'
 
     # optional named arguments/flags
-    command += utils.args2string(args)
+    command += " " + utils.args2string(args)
 
     # execute the upload command
     process = utils.rclone_progress(
