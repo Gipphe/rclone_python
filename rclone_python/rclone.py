@@ -77,6 +77,7 @@ def create_remote(
     remote_type: Union[str, RemoteTypes],
     client_id: Union[str, None] = None,
     client_secret: Union[str, None] = None,
+    obscure: Union[bool, None] = None,
     **kwargs,
 ):
     """Creates a new remote with name, type and options.
@@ -86,6 +87,7 @@ def create_remote(
         remote_type (Union[str, RemoteTypes]): The type of the remote (e.g. "onedrive", RemoteTypes.dropbox, ...)
         client_id (str, optional): OAuth Client Id.
         client_secret (str, optional): OAuth Client Secret.
+        obscure (bool, optional): Obscure passwords in the configuration file. `True` forces obscuring, `False` forces not obscuring, `None` lets rclone decide.
         **kwargs: Additional key value pairs that can be used with the "rclone config create" command.
     """
     if isinstance(remote_type, RemoteTypes):
@@ -94,6 +96,10 @@ def create_remote(
     if not check_remote_existing(remote_name):
         # set up the selected cloud
         command = f'rclone config create "{remote_name}" "{remote_type}"'
+
+        if obscure is not None:
+            no = "no-" if not obscure else ""
+            command += f" --{no}obscure"
 
         if client_id and client_secret:
             logging.info("Using the provided client id and client secret.")
