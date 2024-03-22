@@ -10,7 +10,7 @@ from rclone_python.hash_types import HashTypes
 from rclone_python.remote_types import RemoteTypes
 
 # debug flag enables/disables raw output of rclone progresses in the terminal
-DEBUG = False
+DEBUG = True
 
 
 def __check_installed(func):
